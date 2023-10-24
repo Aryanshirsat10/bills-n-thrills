@@ -26,7 +26,7 @@ const Addsavings = ({ showModal, handleCloseModal }) => {
         <div className="modal-content" style={{backgroundColor: 'rgb(32,32,32)'}}>
           <div className="modal-header">
             <h1 className="modal-title fs-5" style={{color:'white'}}>Add Expense</h1>
-            <button type="button" className="btn-close" onClick={handleCloseModal} aria-label="Close"></button>
+            <button type="button" className="btn-close" onClick={handleCloseModal} aria-label="Close" style={{backgroundColor: '#fe0000'}}></button>
           </div>
           <div className="modal-body">
             <form onSubmit={handleSubmit}>
