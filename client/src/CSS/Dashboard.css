@@ -1,0 +1,60 @@
+*{
+   color:rgb(201, 201, 201);
+}
+
+
+.main{
+    background-color: black;
+    min-height: 96vh;
+    border-radius: 25px;
+    margin-right: 30px;
+    margin-left: 30px;
+}
+.sidesection{
+    background-color:  rgb(32, 32, 32) ;
+    border-radius: 25px;
+}
+.container{
+    max-width: 100%;
+    padding-left: 10px;
+    
+}
+/* .smallheader{
+    background-color: rgb(47, 47, 47);
+    border-radius: 25px;
+} */
+.cash{
+    color: black ;
+    border-radius: 25px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: rgb(43, 232, 42);
+    min-height: auto;
+}
+.inv{
+    color: black;
+    border-radius: 25px;
+    min-height: auto;
+    margin-right: 10px;
+    background-color: rgb(255, 255, 255);
+    width: 47%;
+}
+.se {
+    min-height: 20vh;
+    margin:1px;
+    background-color: rgb(220, 228, 230);
+    border-radius: 25px;   
+}
+.chart-container{
+    position: relative;
+}
+.chart-label{
+    position: absolute;
+    top: 25%;
+    left: 20%;
+    transform: translate(-50%, -50%);
+}
+
+.inr{
+    max-height: fit-content;
+}
