@@ -1,6 +1,6 @@
 import {React, useState} from 'react';
 import '../CSS/Expense.css'
-import { Tooltip ,ResponsiveContainer,Cell, PieChart, Pie, Legend, Label} from 'recharts';
+import { Tooltip ,ResponsiveContainer,Cell, PieChart, Pie, Legend, Label,ComposedChart,XAxis,YAxis,Area,Bar, Line} from 'recharts';
 import { Link } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import Addsavings from '../Components/Addsavings';
@@ -72,27 +72,15 @@ const Savings = () => {
                 <ResponsiveContainer width="100%" height={200}>
                   {/* Render your graph based on selectedInvestment.graphData */}
                   {/* Example: selectedInvestment.graphData*/}
-                  <PieChart style={{marginTop: "30px"}}>
-                    <Pie data={data} cx="50%" cy="50%" innerRadius={70} outerRadius={100}>
-                      {
-                        data.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={colors[index]}/>
-                        ))
-                      }
-                      <Label
-                      value="Savings"
-                      position="center"
-                      fill="black"
-                      style={{
-                        fontSize: "32px",
-                        fontWeight: "bold",
-                        fontFamily: "Roboto"
-                      }}
-                    />
-                    </Pie>
-                    <Legend iconType='circle' align="right" verticalAlign="middle" layout="vertical" wrapperStyle={{ paddingRight: "30px" }} />
-                    
-                  </PieChart>
+                  <ComposedChart width="100%" height={250} data={data} style={{marginTop: "40px"}}>
+                    <XAxis dataKey="name" />
+                    <YAxis dataKey="value"/>
+                    <Tooltip />
+                    <Legend />
+                    <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" />
+                    <Bar dataKey="pv" barSize={20} fill="#413ea0" />
+                    <Line type="monotone" dataKey="uv" stroke="#ff7300" />
+                  </ComposedChart>
                 </ResponsiveContainer>
               ) : (
                 // Default content when no investment is selected
