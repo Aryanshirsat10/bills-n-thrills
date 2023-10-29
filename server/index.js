@@ -53,6 +53,8 @@ const investmentRoutes = require('./routes/investmentRoutes');
 const savingRoutes = require('./routes/savingsRoutes');
 const userRoutes = require('./routes/userRoutes');
 const PORT = 5000;
+const cors = require('cors');
+app.use(cors());
 
 app.use('/api/expenses', expenseRoutes);
 app.use('/api/investments', investmentRoutes);

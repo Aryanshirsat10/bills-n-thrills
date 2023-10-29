@@ -1,53 +1,56 @@
-import React, { useEffect } from 'react';
-import { useClerk,useAuth } from '@clerk/clerk-react';
+import React, { useEffect, useState } from 'react';
+import { useClerk } from '@clerk/clerk-react';
+import { useAuth } from '@clerk/clerk-react';
+import { useUser } from '@clerk/clerk-react';
 
 const UserDataFetcher = () => {
-  const { client ,sessionClaims} = useClerk();
-
+  const { client } = useClerk();
+  // const [userId, setUserId] = useState(null);
+  const { isLoaded, userId, sessionId, getToken } = useAuth();
+  const {user, isSignedIn,username} = useUser();
 
   useEffect(() => {
-    const fetchAndStoreUserData = async () => { 
+    const sendDataToBackend = async () => {
       try {
-        const user = await client.currentUser();
-        if (user) {
-          const { id, username } = user;
-          console.log('User object:', user);
-        //   const clerkUserID = sessionClaims?.id; // Clerk-generated unique user ID
-        //   const username = sessionClaims?.username; // Clerk username
-          console.log('Clerk UserID:', id);
-          console.log('Username:', username);
-  
-          // Send a request to your backend API to store clerkUserID and username in your database
-          const response = await fetch('/api/users', {
+        if (isLoaded && userId) {
+          // Prepare the data to send to the backend
+          const data = {
+            name: user.firstName,
+            userId: userId,
+          };
+          // console.log(data);
+          // Send the data to your backend API endpoint
+          const response = await fetch('http://localhost:5000/api/users', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              // You might need to include an authentication token if required by your backend
+              // 'Authorization': `Bearer ${getToken()}`,
             },
-            body: JSON.stringify({
-              name: username,
-              userId: id,
-            }),
+            body: JSON.stringify(data),
           });
-  
+
           if (response.ok) {
-            console.log('User data stored successfully:', id, username);
+            console.log('Data sent to the backend successfully.');
           } else {
-            console.error('Error storing user data:', response.statusText);
+            console.error('Error sending data to the backend:', response.statusText);
           }
-        } else {
-          console.error('User object is null or undefined');
         }
       } catch (error) {
-        console.error('Error fetching user data:', error);
+        console.error('Error sending data to the backend:', error);
       }
     };
-  
-    fetchAndStoreUserData();
-  }, [client]);
-  
 
-  // You can return null or any UI component if you don't want to render anything for this logic
+    sendDataToBackend();
+  }, [isLoaded, userId]);
+// console.log('User ID:', userId); // Log the user ID to the console
+// console.log('Session ID:', sessionId);
+// if (!isLoaded || !userId) {
+//   return null;
   return null;
-};
+}
+ 
+
+
 
 export default UserDataFetcher;

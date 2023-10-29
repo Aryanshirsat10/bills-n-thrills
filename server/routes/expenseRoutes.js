@@ -1,11 +1,17 @@
 const express = require('express');
 const router = express.Router();
 const Expense = require('../models/Expenses');
+const app = express();
 
+app.use(express.json());
 // Get all expenses
-router.get('/', async (req, res) => {
+router.get('/:userId', async (req, res) => {
+  console.log('Received a Get request to /api/expenses/:userid', req.body);
+  const userId = req.params.userId; // Get userId from the URL parameter
+
   try {
-    const expenses = await Expense.find();
+    // Find expenses specific to the provided userId
+    const expenses = await Expense.find({ userId: userId });
     res.json(expenses);
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -14,8 +20,8 @@ router.get('/', async (req, res) => {
 
 // Create a new expense
 router.post('/', async (req, res) => {
-  const { user, category, paymentType, amount } = req.body;
-  const newExpense = new Expense({ user, category, paymentType, amount });
+  const { userId, category, paymentType, amount } = req.body;
+  const newExpense = new Expense({ userId, category, paymentType, amount });
   try {
     const savedExpense = await newExpense.save();
     res.json(savedExpense);

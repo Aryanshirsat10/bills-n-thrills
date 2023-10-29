@@ -4,6 +4,9 @@ import { Tooltip ,ResponsiveContainer,Cell, PieChart, Pie, Legend, Label,Compose
 import { Link } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import Addexpense from '../Components/Addexpense';
+import UserDataFetcher from '../Components/UserDataFetcher';
+import { useAuth } from '@clerk/clerk-react';
+
 const Expense = () => {
   const data = [
     {
@@ -45,6 +48,7 @@ const Expense = () => {
   ];
   const [selectedInvestment, setSelectedInvestment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [existingData, setExistingData] = useState([]);
 
   const handleInvestmentClick = (investment) => {
     setSelectedInvestment(investment);
@@ -56,24 +60,28 @@ const Expense = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
-  const [expenses, setExpenses] = useState([]);
-  const [userID, setUserID] = useState('');
+  const {userId} = useAuth();
 
   useEffect(() => {
-    const fetchExpenses = async () => {
+    // Fetch existing data from the database when the component mounts
+    const fetchExistingData = async () => {
       try {
-        const response = await fetch(`/api/expenses?userID=${userID}`);
+        const response = await fetch(`http://localhost:5000/api/expenses/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
         const data = await response.json();
-        setExpenses(data);
+        console.log(data);
+        setExistingData(data);
       } catch (error) {
-        console.error('Error fetching expenses:', error);
+        console.error('Error fetching existing data:', error);
       }
     };
 
-    if (userID) {
-      fetchExpenses();
-    }
-  }, [userID]);
+    fetchExistingData();
+  }, [userId]);
   
   return (
     <>
@@ -81,6 +89,7 @@ const Expense = () => {
     <div class="container row">
       <div class="main col p-3">
         <h1>Expenses</h1>  
+        <UserDataFetcher/>
         <div class="saving row">
           <div class="cash col-lg-6 p-3 " style={{backgroundColor: "rgb(255,255,255)"}}>
           <h3>Expenses Diversity</h3>
@@ -135,11 +144,11 @@ const Expense = () => {
           <div className="inv col-lg-6 p-3" style={{ maxHeight: '350px', overflowY: 'scroll',backgroundColor:"rgb(32, 32, 32)",color:"white" }}>
             <h6>Expenses</h6>
             <ul className="list-group" style={{ listStyle: 'none', padding: '0'}}>
-              {expenses.map(expense => (
+              {existingData.map(expense => (
                 <li key={expense._id} className="list-group-item" onClick={() => handleInvestmentClick(expense)} style={{listStyle: "none", border: 'none', backgroundColor:"rgb(32, 32, 32)", color: 'white'}}>
                   <Link to="#" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <h5>{expense.name}</h5>
-                    <p>{expense.percentage}</p>
+                    <h5>{expense.category}</h5>
+                    <p>{expense.amount}</p>
                   </Link>
                 </li>
               ))}
