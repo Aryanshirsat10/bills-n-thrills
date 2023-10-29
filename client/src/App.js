@@ -8,7 +8,7 @@ import Expense from './Pages/Expense';
 import Investments from './Pages/Investments';
 import Savings from './Pages/Savings';
 import {dark} from "@clerk/themes";
-
+import UserDataFetcher from './Components/UserDataFetcher';
 if (!process.env.REACT_APP_CLERK_PUBLISHABLE_KEY) {
   throw new Error('Missing Publishable Key');
 }
@@ -54,13 +54,18 @@ function App() {
 
 function Home() {
   const user = useUser();
-  
   if (user.isSignedIn) {
-    return <Dashboard />;
+    return (
+      <>
+        <UserDataFetcher /> {/* Include the UserDataFetcher component */}
+        <Dashboard />
+      </>
+    );
   }
   
   return (
     <div className='center-container'>
+      <UserDataFetcher />
       <SignIn />
     </div> 
   );

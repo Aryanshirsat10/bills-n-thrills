@@ -12,8 +12,43 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
         setFormData({ ...formData, [name]: value });
       };
     
-      const handleSubmit = (e) => {
+      const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!formData.category || !formData.amount || !formData.paymentType) {
+          // Handle validation error, show error message to the user
+          console.error("Please fill out all fields.");
+          return;
+        }
+      
+        try {
+          // Get the logged-in user's ID (replace 'getLoggedInUserId' with the actual function to get user ID)
+          // const userId = await getLoggedInUserId();
+          const userId = "";
+          // Send the expense data along with the user ID to your API endpoint
+          const response = await fetch('/api/expenses', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              userId: userId,
+              category: formData.category,
+              amount: formData.amount,
+              paymentType: formData.paymentType,
+            }),
+          });
+      
+          const data = await response.json();
+      
+          console.log('Expense added successfully:', data);
+      
+          // Trigger a function to update the UI with the new expense (if needed)
+          // onExpenseAdded();
+          setFormData({ category: '', amount: '', paymentType: '' }); // Clear the form
+        } catch (error) {
+          console.error('Error adding expense:', error);
+          // Handle error, show error message to the user
+        }
         // Log the selected category and amount to the console
         console.log('Selected Category:', formData.category);
         console.log('Amount:', formData.amount);

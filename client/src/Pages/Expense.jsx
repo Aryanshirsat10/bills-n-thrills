@@ -1,4 +1,4 @@
-import {React, useState} from 'react';
+import {React, useState,useEffect} from 'react';
 import '../CSS/Expense.css'
 import { Tooltip ,ResponsiveContainer,Cell, PieChart, Pie, Legend, Label,ComposedChart,XAxis,YAxis,Area,Bar, Line} from 'recharts';
 import { Link } from 'react-router-dom';
@@ -56,6 +56,24 @@ const Expense = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const [expenses, setExpenses] = useState([]);
+  const [userID, setUserID] = useState('');
+
+  useEffect(() => {
+    const fetchExpenses = async () => {
+      try {
+        const response = await fetch(`/api/expenses?userID=${userID}`);
+        const data = await response.json();
+        setExpenses(data);
+      } catch (error) {
+        console.error('Error fetching expenses:', error);
+      }
+    };
+
+    if (userID) {
+      fetchExpenses();
+    }
+  }, [userID]);
   
   return (
     <>
@@ -117,11 +135,11 @@ const Expense = () => {
           <div className="inv col-lg-6 p-3" style={{ maxHeight: '350px', overflowY: 'scroll',backgroundColor:"rgb(32, 32, 32)",color:"white" }}>
             <h6>Expenses</h6>
             <ul className="list-group" style={{ listStyle: 'none', padding: '0'}}>
-              {investmentsData.map(investment => (
-                <li key={investment.id} className="list-group-item" onClick={() => handleInvestmentClick(investment)} style={{listStyle: "none", border: 'none', backgroundColor:"rgb(32, 32, 32)", color: 'white'}}>
+              {expenses.map(expense => (
+                <li key={expense._id} className="list-group-item" onClick={() => handleInvestmentClick(expense)} style={{listStyle: "none", border: 'none', backgroundColor:"rgb(32, 32, 32)", color: 'white'}}>
                   <Link to="#" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <h5>{investment.name}</h5>
-                    <p>{investment.percentage}</p>
+                    <h5>{expense.name}</h5>
+                    <p>{expense.percentage}</p>
                   </Link>
                 </li>
               ))}
