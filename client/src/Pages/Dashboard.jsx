@@ -1,10 +1,33 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import '../CSS/Dashboard.css'
 import { BarChart, Bar, Tooltip ,ResponsiveContainer ,YAxis, Cell, PieChart, Pie,Legend,Label} from 'recharts';
 import { Link } from 'react-router-dom';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/Navbar';
+import _ from 'lodash';
+
 const Dashboard = () => {
+
+  const [dimensions, setDimensions] = useState({
+    height: window.innerHeight,
+    width: window.innerWidth
+  });
+
+  useEffect(() => {
+    const debouncedHandleResize = _.debounce(function handleResize() {
+      setDimensions({
+        height: window.innerHeight,
+        width: window.innerWidth
+      })
+    }, 1000)
+
+    window.addEventListener('resize', debouncedHandleResize)
+
+    return () => {
+      window.removeEventListener('resize', debouncedHandleResize)
+    }
+  })
+
   const data = [
     {
       "name": "Page A",
