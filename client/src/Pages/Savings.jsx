@@ -1,9 +1,10 @@
-import {React, useState} from 'react';
+import {React, useState,useEffect} from 'react';
 import '../CSS/Expense.css'
 import { Tooltip ,ResponsiveContainer,Cell, PieChart, Pie, Legend, Label,ComposedChart,XAxis,YAxis,Area,Bar, Line} from 'recharts';
 import { Link } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import Addsavings from '../Components/Addsavings';
+import { useAuth } from '@clerk/clerk-react';
 const Savings = () => {
   const data = [
     {
@@ -45,6 +46,7 @@ const Savings = () => {
   ];
   const [selectedInvestment, setSelectedInvestment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [existingData, setExistingData] = useState([]);
 
   const handleInvestmentClick = (investment) => {
     setSelectedInvestment(investment);
@@ -56,6 +58,27 @@ const Savings = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const {userId} = useAuth();
+  useEffect(() => {
+    // Fetch existing data from the database when the component mounts
+    const fetchExistingData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/savings/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+        setExistingData(data);
+      } catch (error) {
+        console.error('Error fetching existing data:', error);
+      }
+    };
+
+    fetchExistingData();
+  }, [userId]);
   
   return (
     <>
@@ -117,11 +140,11 @@ const Savings = () => {
           <div className="inv col-lg-6 p-3" style={{ maxHeight: '350px', overflowY: 'scroll',backgroundColor:"rgb(32, 32, 32)",color:"white" }}>
             <h6>Savings</h6>
             <ul className="list-group" style={{ listStyle: 'none', padding: '0'}}>
-              {investmentsData.map(investment => (
-                <li key={investment.id} className="list-group-item" onClick={() => handleInvestmentClick(investment)} style={{listStyle: "none", border: 'none', backgroundColor:"rgb(32, 32, 32)", color: 'white'}}>
+              {existingData.map(saving => (
+                <li key={saving._id} className="list-group-item" onClick={() => handleInvestmentClick(saving)} style={{listStyle: "none", border: 'none', backgroundColor:"rgb(32, 32, 32)", color: 'white'}}>
                   <Link to="#" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <h5>{investment.name}</h5>
-                    <p>{investment.percentage}</p>
+                    <h5>{saving.category}</h5>
+                    <p>{saving.amount}</p>
                   </Link>
                 </li>
               ))}

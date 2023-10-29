@@ -1,9 +1,10 @@
-import {React, useState} from 'react';
+import {React, useState,useEffect} from 'react';
 import '../CSS/investments.css'
 import { BarChart, Bar, Tooltip ,ResponsiveContainer ,YAxis,XAxis, Cell} from 'recharts';
 import { Link } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import Addinvestment from '../Components/Addinvestment';
+import { useAuth } from '@clerk/clerk-react';
 const Investments = () => {
   const data = [
     {
@@ -63,7 +64,7 @@ const Investments = () => {
   ];
   const [selectedInvestment, setSelectedInvestment] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const [existingData, setExistingData] = useState([]);
   const handleInvestmentClick = (investment) => {
     setSelectedInvestment(investment);
   };
@@ -74,6 +75,28 @@ const Investments = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
   };
+  const {userId} = useAuth();
+
+  useEffect(() => {
+    // Fetch existing data from the database when the component mounts
+    const fetchExistingData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/investments/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+        setExistingData(data);
+      } catch (error) {
+        console.error('Error fetching existing data:', error);
+      }
+    };
+
+    fetchExistingData();
+  }, [userId]);
   return (
     <>
     <Navbar/>
@@ -119,11 +142,11 @@ const Investments = () => {
           <div className="inv col-lg-6 p-3" style={{ maxHeight: '350px', overflowY: 'scroll' }}>
             <h6>Investments</h6>
             <ul className="list-group" style={{ listStyle: 'none', padding: '0' }}>
-              {investmentsData.map(investment => (
-                <li key={investment.id} className="list-group-item" onClick={() => handleInvestmentClick(investment)} style={{listStyle: "none", border: 'none'}}>
+              {existingData.map(investment => (
+                <li key={investment._id} className="list-group-item" onClick={() => handleInvestmentClick(investment)} style={{listStyle: "none", border: 'none'}}>
                   <Link to="#" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <h5>{investment.name}</h5>
-                    <p>{investment.percentage}</p>
+                    <h5>{investment.category}</h5>
+                    <p>{investment.amount}</p>
                   </Link>
                 </li>
               ))}

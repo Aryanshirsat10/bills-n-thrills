@@ -2,9 +2,10 @@ const mongoose = require('mongoose');
 
 const savingsSchema = new mongoose.Schema({
   // Define your savings schema fields here
-    user: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+    userId: {
+        // type: mongoose.Schema.Types.ObjectId,
+        // ref: 'User',
+        type: String,
         required: true
     },
     category: {

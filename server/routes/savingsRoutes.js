@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Saving = require('../models/Savings');
+const app = express();
+
+app.use(express.json());
 
 // Get all savings
 router.get('/:userId', async (req, res) => {
@@ -13,23 +16,12 @@ router.get('/:userId', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-router.get('/:userId', async (req, res) => {
-  console.log('Received a Get request to /api/expenses/:userid', req.body);
-  const userId = req.params.userId; // Get userId from the URL parameter
 
-  try {
-    // Find expenses specific to the provided userId
-    const expenses = await Expense.find({ userId: userId });
-    res.json(expenses);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 // Create a new saving
 router.post('/', async (req, res) => {
-  const { user, category, generatesCashFlow, cashFlowAmount, paymentType, amount } = req.body;
-  const newSaving = new Saving({ user, category, generatesCashFlow, cashFlowAmount, paymentType, amount });
+  const { userId, category, generatesCashFlow, cashFlowAmount, paymentType, amount } = req.body;
+  const newSaving = new Saving({ userId, category, generatesCashFlow, cashFlowAmount, paymentType, amount });
   try {
     const savedSaving = await newSaving.save();
     res.json(savedSaving);
@@ -40,7 +32,7 @@ router.post('/', async (req, res) => {
 
 // Update a saving by ID
 router.put('/:id', async (req, res) => {
-  const { user, category, generatesCashFlow, cashFlowAmount, paymentType, amount } = req.body;
+  const { userId, category, generatesCashFlow, cashFlowAmount, paymentType, amount } = req.body;
   try {
     const updatedSaving = await Saving.findByIdAndUpdate(
       req.params.id,

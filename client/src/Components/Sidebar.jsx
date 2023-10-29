@@ -70,7 +70,7 @@ const Sidebar = () => {
           <Area type="monotone" dataKey="Age32" stroke="#2be82a" fillOpacity={1} fill="#2be82a" />
         </AreaChart>
         </ResponsiveContainer>
-        <h3 class="chart-label text-white">X.X%</h3>
+        <h3 class="chart-label text-white">9.7%</h3>
         </div>
         <div class="row mt-5 p-3">
           <h5>Recommendations</h5>

@@ -1,11 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const Investment = require('../models/Investments');
+const app = express();
 
+app.use(express.json());
 // Get all investments
-router.get('/', async (req, res) => {
+router.get('/:userId', async (req, res) => {
+  const userId = req.params.userId; 
   try {
-    const investments = await Investment.find();
+    const investments = await Investment.find({ userId : userId});
     res.json(investments);
   } catch (error) {
     res.status(500).json({ error: error.message });
