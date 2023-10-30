@@ -18,6 +18,10 @@ const Dashboard = () => {
   const [totalInvest, setTotalInvest] = useState(0);
   const [totalDebitValue, setTotalDebit] = useState(0);
   const {userId} = useAuth();
+  function calculateScore(totalSaving, totalInvest) {
+    let score = totalSaving + totalInvest > 1086000 ? 9 : 5;
+    return score;
+  }
   useEffect(() => {
     const debouncedHandleResize = _.debounce(function handleResize() {
       setDimensions({
@@ -143,18 +147,14 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
         const totalAmount = amounts.reduce((sum, amount) => sum + amount, 0);
         setTotalSaving(totalAmount);
         console.log('Savings data:', data);
+        const score = calculateScore(totalSaving, totalInvest);
+       setTotalNet(score);
         // Process the savings data as needed
       } catch (error) {
         console.error('Error fetching savings data:', error);
       }
     };
-    function calculateScore(totalSaving, totalInvest) {
-      let score=0;
-      var spanElement = document.querySelector('.chart-lab');
-      if (totalSaving + totalInvest < 1086000) {
-        spanElement.innerHTML = 'Score: ' + score;
-      }
-    }
+
     const fetchinvestmentData = async () => {
       try {
         const response = await fetch(`http://localhost:5000/api/investments/${userId}`);
@@ -166,6 +166,8 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
         const totalAmount = amounts.reduce((sum, amount) => sum + amount, 0);
         setTotalInvest(totalAmount);
         console.log('Savings data:', data);
+        const score = calculateScore(totalSaving, totalInvest);
+       setTotalNet(score);
         // Process the savings data as needed
       } catch (error) {
         console.error('Error fetching savings data:', error);
@@ -187,7 +189,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
             &nbsp;
             <h2 class="networth">₹{totalSaving+totalInvest}</h2>
             {/* <h2 class="networth">₹{netWorth.toFixed(2)}</h2> */}
-            <span>90 days <span style={{color: 'rgb(43, 232, 42)'}}>+6,889</span></span>
+            {/* <span>90 days <span style={{color: 'rgb(43, 232, 42)'}}>+6,889</span></span> */}
           </div>
           <div class="smallheader col p-3 rounded-4" style={{backgroundColor: 'rgb(32, 32, 32)'}}><h6>Finance Score</h6> 
           {/* <h2 class="networth">₹XXX,XXX.XX</h2> */}
@@ -215,7 +217,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
               />
             </PieChart>
           </ResponsiveContainer>
-          <span class='chart-lab'>Score:</span>
+          <span class='chart-lab'>Score:{totalNet}</span>
           </div>
           <div class="smallheader col mx-2 p-3 rounded-4"style={{backgroundColor: 'rgb(32, 32, 32)'}}><h6>Credit</h6>
           &nbsp;
