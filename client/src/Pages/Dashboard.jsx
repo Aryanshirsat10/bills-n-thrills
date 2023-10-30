@@ -14,6 +14,7 @@ const Dashboard = () => {
   });
   const [totalCredit, setTotalCredit] = useState(0);
   const [totalSaving, setTotalSaving] = useState(0);
+  const [totalNet, setTotalNet] = useState(0);
   const [totalInvest, setTotalInvest] = useState(0);
   const [totalDebitValue, setTotalDebit] = useState(0);
   const {userId} = useAuth();
@@ -147,6 +148,13 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
         console.error('Error fetching savings data:', error);
       }
     };
+    function calculateScore(totalSaving, totalInvest) {
+      let score=0;
+      var spanElement = document.querySelector('.chart-lab');
+      if (totalSaving + totalInvest < 1086000) {
+        spanElement.innerHTML = 'Score: ' + score;
+      }
+    }
     const fetchinvestmentData = async () => {
       try {
         const response = await fetch(`http://localhost:5000/api/investments/${userId}`);
@@ -177,7 +185,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
         <div class=" row 1 row mb-3">
           <div class="smallheader col mx-2 p-3 rounded-4" style={{backgroundColor: 'rgb(32, 32, 32)'}}><h6>Networth</h6>
             &nbsp;
-            <h2 class="networth">₹{totalDebitValue.toFixed(2)}</h2>
+            <h2 class="networth">₹{totalSaving+totalInvest}</h2>
             {/* <h2 class="networth">₹{netWorth.toFixed(2)}</h2> */}
             <span>90 days <span style={{color: 'rgb(43, 232, 42)'}}>+6,889</span></span>
           </div>
@@ -207,7 +215,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
               />
             </PieChart>
           </ResponsiveContainer>
-          <span class='chart-lab'>Score:{data.score}</span>
+          <span class='chart-lab'>Score:</span>
           </div>
           <div class="smallheader col mx-2 p-3 rounded-4"style={{backgroundColor: 'rgb(32, 32, 32)'}}><h6>Credit</h6>
           &nbsp;
@@ -222,8 +230,8 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
           <Link to="/savings" style={{textDecoration: "none", color:"black"}}>
             <h6>Cash</h6>
             </Link>
-            <h1>{totalSaving}</h1>
-            grow since last day<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z"/></svg>
+            <h1>₹{totalSaving}</h1>
+            {/* grow since last day<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z"/></svg> */}
           <ResponsiveContainer width="100%" height={100}>
           <BarChart data={data}>
             {/* <Tooltip /> */}
@@ -240,7 +248,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
           <Link to="/investments" style={{textDecoration: "none", color:"black"}}>
             <h6>Investment</h6>
           </Link>
-          <h1>{totalInvest}</h1>
+          <h1>₹{totalInvest}</h1>
           &nbsp;
           <ResponsiveContainer width="100%" height={100}>
           <BarChart data={data}>
