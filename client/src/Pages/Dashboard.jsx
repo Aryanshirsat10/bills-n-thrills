@@ -20,7 +20,7 @@ const Dashboard = () => {
   const {userId} = useAuth();
   function calculateScore(totalSaving, totalInvest) {
     let score = totalSaving + totalInvest ;
-    if(score<1086000 && score> 0){
+    if(score<1086000 && score>0){
       score = 5;
     }
     else if(score>= 1086000){
@@ -230,7 +230,6 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
           &nbsp;
           <h2 class="networth">-₹{totalCredit.toFixed(2)}</h2>
           {/* <h2 class="networth">₹{netWorth.toFixed(2)}</h2> */}
-            <span>₹xxxxx remaining</span>
           </div>  
         </div>  
         <h2>Saving Analytics</h2>

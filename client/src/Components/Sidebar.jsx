@@ -48,6 +48,7 @@ const Sidebar = () => {
   return (
     <div class="chart-container">
         <h4>Increase your relative <br/> return by</h4>
+        <h4>Network by age</h4>
         <div>
         <ResponsiveContainer width="100%" height={200}>
         <AreaChart data={data1}
@@ -74,13 +75,13 @@ const Sidebar = () => {
         </div>
         <div class="row mt-5 p-3">
           <h5>Recommendations</h5>
-          <div className="col-5 p-3 text-black rounded-5 mt-2" style={{backgroundColor: 'rgb(43, 232, 42)'}}><h4>₹xxx.xx</h4>
-            ₹xx<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z"/></svg>
+          <div className="col-5 p-3 text-black rounded-5 mt-2" style={{backgroundColor: 'rgb(43, 232, 42)'}}><h4></h4>
+            {/* ₹xx<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z"/></svg> */}
             &nbsp;<br/><br/>
             <h6>Share's price rising</h6>
           </div>
-          <div className="col-5 p-3 mx-2 bg-white text-black rounded-5 mt-2"><h4>XXX</h4>
-          <p><span style={{ color:'#2ae029'}}>&#x2B;</span>&nbsp;&nbsp;<strong>₹XX</strong></p>
+          <div className="col-5 p-3 mx-2 bg-white text-black rounded-5 mt-2"><h4></h4>
+          <p><span style={{ color:'#2ae029'}}>&#x2B;</span>&nbsp;&nbsp;<strong></strong></p>
             &nbsp;
             <h6>Points<br/>changes</h6>
           </div>
