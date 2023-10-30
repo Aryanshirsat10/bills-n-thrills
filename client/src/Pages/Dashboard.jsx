@@ -19,7 +19,17 @@ const Dashboard = () => {
   const [totalDebitValue, setTotalDebit] = useState(0);
   const {userId} = useAuth();
   function calculateScore(totalSaving, totalInvest) {
-    let score = totalSaving + totalInvest > 1086000 ? 9 : 5;
+    let score = totalSaving + totalInvest ;
+    if(score==0){
+      score = 0;
+    }
+    else if(score<1086000){
+      score = 5;
+    }
+    else if(score>= 1086000){
+      score = 9;
+    }
+    
     return score;
   }
   useEffect(() => {
