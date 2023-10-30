@@ -8,14 +8,14 @@ import { useAuth } from '@clerk/clerk-react';
 const Investments = () => {
   const data = [
     {
-      "name": "Page A",
+      "name": "RealEstate",
       "uv": 90,
       "color": '#24c924',
       "pv": 90,
       "amt": 90
     },
     {
-      "name": "Page B",
+      "name": "Stock Market",
       "uv": 150,
       "color": '#20aa1f',
       "pv": 150,
@@ -23,7 +23,7 @@ const Investments = () => {
 
     },
     {
-      "name": "Page C",
+      "name": "Mutual Funds",
       "uv": 200,
       "color": '#1a8b19',
       "pv": 200,
@@ -31,14 +31,7 @@ const Investments = () => {
 
     },
     {
-      "name": "Page D",
-      "uv": 250,
-      "color": '#136813',
-      "pv": 250,
-      "amt": 250
-    },
-    {
-      "name": "Page E",
+      "name": "other",
       "uv": 300,
       "color": '#000000',
       "pv": 480,
@@ -106,13 +99,13 @@ const Investments = () => {
         <div class="saving row">
           <div class="cash col-lg-6 p-3 ">
           <h6>Investment Performance</h6>
-          <h1>XX%</h1>
+          {/* <h1>XX%</h1> */}
               {selectedInvestment ? (
                 // Render Graph for Selected Investment
                 <ResponsiveContainer width="100%" height={200}>
                   {/* Render your graph based on selectedInvestment.graphData */}
                   {/* Example: selectedInvestment.graphData*/}
-                  <ComposedChart width="100%" height={250} data={existingData} style={{marginTop: "40px"}}>
+                  <ComposedChart width="100%" height={250} data={existingData} style={{marginTop: "50px"}}>
                     <XAxis dataKey="name" />
                     <YAxis dataKey="value"/>
                     <Tooltip />
@@ -129,7 +122,7 @@ const Investments = () => {
                   {/* Render your graph based on selectedInvestment.graphData */}
                   {/* Example: selectedInvestment.graphData*/}
                   {/* <h1>{selectedInvestment ? selectedInvestment.percentage : 'XX%'}</h1> */}
-                  <BarChart data={data}> 
+                  <BarChart data={data} style={{marginTop: "50px"}}> 
                   <YAxis/>
                   <XAxis dataKey="name" />
                     <Bar dataKey="uv" fill="#00000" barSize={60} barRadius={25}>

@@ -10,28 +10,20 @@ import { useAuth } from '@clerk/clerk-react';
 const Expense = () => {
   const data = [
     {
-      "name": "Group A",
-      "value": 400
+      "name": "Food",
+      "value": 1000
     },
     {
-      "name": "Group B",
-      "value": 300
+      "name": "Investment",
+      "value": 1000
     },
     {
-      "name": "Group C",
-      "value": 500
+      "name": "Tranportation",
+      "value":  2000
     },
     {
-      "name": "Group D",
-      "value": 200
-    },
-    {
-      "name": "Group E",
-      "value": 278
-    },
-    {
-      "name": "Group F",
-      "value": 189
+      "name": "Others",
+      "value": 100
     }
   ];
   const colors = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF00FF', '#FF5733', '#C70039', '#900C3F'];
@@ -93,7 +85,7 @@ const Expense = () => {
         <div class="saving row">
           <div class="cash col-lg-6 p-3 " style={{backgroundColor: "rgb(255,255,255)"}}>
           <h3>Expenses Diversity</h3>
-          <h3>{selectedInvestment ? selectedInvestment.percentage : 'XX%'}</h3>
+          <h3>{selectedInvestment ? selectedInvestment.percentage : ''}</h3>
               {selectedInvestment ? (
                 // Render Graph for Selected Investment
                 <ResponsiveContainer width="100%" height={200}>

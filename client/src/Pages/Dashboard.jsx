@@ -20,10 +20,7 @@ const Dashboard = () => {
   const {userId} = useAuth();
   function calculateScore(totalSaving, totalInvest) {
     let score = totalSaving + totalInvest ;
-    if(score==0){
-      score = 0;
-    }
-    else if(score<1086000){
+    if(score<1086000 && score> 0){
       score = 5;
     }
     else if(score>= 1086000){
