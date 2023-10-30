@@ -16,9 +16,10 @@ router.get('/:userId', async (req, res) => {
 });
 
 // Create a new investment
-router.post('/', async (req, res) => {
-  const { user, category, generatesCashFlow, cashFlowAmount, paymentType, amount } = req.body;
-  const newInvestment = new Investment({ user, category, generatesCashFlow, cashFlowAmount, paymentType, amount });
+router.post('/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const { category, generatesCashFlow, cashFlowAmount, paymentType, amount } = req.body;
+  const newInvestment = new Investment({ userId, category, generatesCashFlow, cashFlowAmount, paymentType, amount });
   try {
     const savedInvestment = await newInvestment.save();
     res.json(savedInvestment);

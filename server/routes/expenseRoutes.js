@@ -19,8 +19,9 @@ router.get('/:userId', async (req, res) => {
 });
 
 // Create a new expense
-router.post('/', async (req, res) => {
-  const { userId, category, paymentType, amount } = req.body;
+router.post('/:userId', async (req, res) => {
+  const userId = req.params.userId;
+  const { category, paymentType, amount } = req.body;
   const newExpense = new Expense({ userId, category, paymentType, amount });
   try {
     const savedExpense = await newExpense.save();

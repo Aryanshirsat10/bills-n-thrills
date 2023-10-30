@@ -26,7 +26,7 @@ const Addsavings = ({ showModal, handleCloseModal }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/savings`, {
+      const response = await fetch(`http://localhost:5000/api/savings/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -71,9 +71,10 @@ const Addsavings = ({ showModal, handleCloseModal }) => {
                   style={{ backgroundColor: 'rgb(32,32,32)', border: 'none' }}
                 >
                   <option value="">Select Category</option>
-                  <option value="Food">Food</option>
-                  <option value="Transportation">Transportation</option>
-                  <option value="Entertainment">Entertainment</option>
+                  <option value="Food">Fd</option>
+                  <option value="Transportation">Mutual Funds</option>
+                  <option value="Entertainment">Rd</option>
+                  <option value="Entertainment">Other</option>
                   {/* Add more categories as needed */}
                 </select>
               </div>
@@ -90,8 +91,8 @@ const Addsavings = ({ showModal, handleCloseModal }) => {
                 >
                   <option value="">Select Payment Type</option>
                   <option value="Cash">Cash</option>
-                  <option value="Credit Card">Credit Card</option>
-                  <option value="Debit Card">Debit Card</option>
+                  <option value="Credit Card">Credit</option>
+                  <option value="Debit Card">Debit</option>
                   {/* Add more payment types as needed */}
                 </select>
               </div>

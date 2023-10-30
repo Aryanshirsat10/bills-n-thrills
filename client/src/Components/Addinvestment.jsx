@@ -1,12 +1,15 @@
 import {React, useState} from "react";
-
-const Addexpense = ({ showModal, handleCloseModal }) => {
+import { useAuth } from '@clerk/clerk-react';
+const Addinvestment = ({ showModal, handleCloseModal }) => {
+  const { userId } = useAuth();
     const [formData, setFormData] = useState({
         category: '',
-        amount: '',
+        generatesCashFlow: '',
         cashFlowAmount: '',
+        paymentType:'',
+        amount: '',
       });
-    
+      console.log('User ID:', userId);
       const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -19,34 +22,32 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
           console.error("Please fill out all fields.");
           return;
         }
-      
-        try {
           // Get the logged-in user's ID (replace 'getLoggedInUserId' with the actual function to get user ID)
           // const userId = await getLoggedInUserId();
-          const userId = "";
           // Send the expense data along with the user ID to your API endpoint
-          const response = await fetch('/api/expenses', {
+        try {
+          const response = await fetch(`http://localhost:5000/api/investments/${userId}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-              userId: userId,
-              category: formData.category,
-              amount: formData.amount,
-              cashFlowAmount: formData.cashFlowAmount,
-            }),
-          });
+          body: JSON.stringify({
+            userId: userId,
+            category: formData.category,
+            generatesCashFlow: formData.generatesCashFlow=== 'YES',
+            cashFlowAmount: formData.cashFlowAmount,
+            paymentType: formData.paymentType,
+            amount: formData.amount,
+            date: new Date()
+          }),
+        });
       
           const data = await response.json();
       
-          console.log('Expense added successfully:', data);
-      
-          // Trigger a function to update the UI with the new expense (if needed)
-          // onExpenseAdded();
-          setFormData({ category: '', amount: '', cashFlowAmount: '' }); // Clear the form
+          console.log('Investment added successfully:', data);
+          setFormData({ category: '', amount: '', cashFlowAmount: '',paymentType:'' }); // Clear the form
         } catch (error) {
-          console.error('Error adding expense:', error);
+          console.error('Error adding investment:', error);
           // Handle error, show error message to the user
         }
         // Log the selected category and amount to the console
@@ -63,9 +64,9 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
             <button type="button" className="btn-close" onClick={handleCloseModal} aria-label="Close" style={{backgroundColor: '#fe0000'}}></button>
           </div>
           <div className="modal-body">
-            <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
               {/* Form content */}
-              <div className="form-group">
+            <div className="form-group">
           <label htmlFor="category">Category:</label>
           <select
             id="category"
@@ -77,8 +78,8 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
           >
             <option value="">Select Category</option>
             <option value="Food">Real Estate</option>
-            <option value="Transportation">Stock market</option>
-            <option value="Entertainment">Mutual funds</option>
+            <option value="Stock market">Stock market</option>
+            <option value="Mutual funds">Mutual funds</option>
             {/* Add more categories as needed */}
           </select>
         </div>
@@ -86,9 +87,9 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
         <div className="form-group">
           <label htmlFor="category">Does this investment generate cash flow:</label>
           <select
-            id="category"
-            name="category"
-            value={formData.category}
+            id="generatesCashFlow"
+            name="generatesCashFlow"
+            value={formData.generatesCashFlow}
             onChange={handleInputChange}
             style={{backgroundColor: 'rgb(32,32,32)', border: 'none'}}
             required
@@ -98,7 +99,7 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
             <option value="Transportation">NO</option>
             {/* Add more categories as needed */}
           </select>
-          {formData.category === 'Food' && (
+          {formData.generatesCashFlow === 'Food' && (
         <div className="form-group">
           <label htmlFor="cashFlowAmount">Cash Flow Amount(per month):</label>
           <input
@@ -117,16 +118,16 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
         <div className="form-group">
           <label htmlFor="category">Payment Type: </label>
           <select
-            id="payementtype"
-            name="payementtype"
-            value={formData.payementtype}
+            id="paymentType"
+            name="paymentType"
+            value={formData.paymentType}
             onChange={handleInputChange}
             required
             style={{backgroundColor: 'rgb(32,32,32)', border: 'none'}}
           >
-            <option value="">Select Category</option>
-            <option value="Food">Debit</option>
-            <option value="Transportation">Credit</option>
+            <option value="">Select Payment Type</option>
+            <option value="Credit Card">Credit</option>
+            <option value="Debit Card">Debit</option>
           </select>
         </div>
         <br />
@@ -141,12 +142,12 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
             style={{backgroundColor: 'rgb(32,32,32)'}}
             required
           />
-        </div>
-            </form>
           </div>
           <div className="modal-footer">
             <button type="button" className="btn btn-outline-danger" onClick={handleCloseModal}>Cancel</button>
             <button type="submit" className="btn btn-success">Submit</button>
+          </div>
+          </form>
           </div>
         </div>
       </div>
@@ -154,4 +155,4 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
   );
 };
 
-export default Addexpense;
+export default Addinvestment;

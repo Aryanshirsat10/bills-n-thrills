@@ -6,15 +6,20 @@ const app = express();
 
 app.use(express.json());
 
-router.get('/:userId', async (req, res) => {
+router.get('/debitData/:userId', async (req, res) => {
     const userId = req.params.userId; 
     try {
-      const savingsData = await fetchSavingsDataForUsers({ userId : userId});
-      res.json(savingsData);
+      const investments = await Investment.find({ userId, paymentType: 'debit' });
+      const savings = await Saving.find({ userId, paymentType: 'debit' });
+  
+      const debitAmounts = [...investments, ...savings].reduce((total, item) => {
+        return total + item.amount;
+      }, 0);
+  
+      res.json({ debitAmounts });
     } catch (error) {
-      console.error('Error fetching savings data:', error);
+      console.error('Error fetching debit amounts:', error);
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-
   module.exports = router;

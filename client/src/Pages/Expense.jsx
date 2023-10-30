@@ -99,14 +99,14 @@ const Expense = () => {
                 <ResponsiveContainer width="100%" height={200}>
                   {/* Render your graph based on selectedInvestment.graphData */}
                   {/* Example: selectedInvestment.graphData*/}
-                  <ComposedChart width="100%" height={250} data={data} style={{marginTop: "40px"}}>
+                  <ComposedChart width="100%" height={250} data={existingData} style={{marginTop: "40px"}}>
                     <XAxis dataKey="name" />
                     <YAxis dataKey="value"/>
                     <Tooltip />
                     <Legend />
-                    <Area type="monotone" dataKey="amt" fill="#8884d8" stroke="#8884d8" />
-                    <Bar dataKey="pv" barSize={20} fill="#413ea0" />
-                    <Line type="monotone" dataKey="uv" stroke="#ff7300" />
+                    <Area type="monotone" dataKey="amount" fill="#8884d8" stroke="#8884d8" />
+                    <Bar dataKey="amount" barSize={20} fill="#413ea0" />
+                    <Line type="monotone" dataKey="amount" stroke="#ff7300" />
                   </ComposedChart>
                 </ResponsiveContainer>
               ) : (
@@ -116,7 +116,7 @@ const Expense = () => {
                   {/* Render your graph based on selectedInvestment.graphData */}
                   {/* Example: selectedInvestment.graphData*/}
                   {/* <h1>{selectedInvestment ? selectedInvestment.percentage : 'XX%'}</h1> */}
-                  <PieChart style={{marginTop: "30px"}}>
+                  <PieChart style={{marginTop: "40px"}}>
                   <Tooltip contentStyle={{ color: "black" }}/>
                     <Pie data={data} cx="50%" cy="50%" innerRadius={70} outerRadius={100} >
                       {

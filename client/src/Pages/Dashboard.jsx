@@ -5,14 +5,18 @@ import { Link } from 'react-router-dom';
 import Sidebar from '../Components/Sidebar';
 import Navbar from '../Components/Navbar';
 import _ from 'lodash';
-
+import { useAuth } from '@clerk/clerk-react';
 const Dashboard = () => {
 
   const [dimensions, setDimensions] = useState({
     height: window.innerHeight,
     width: window.innerWidth
   });
-
+  const [totalCredit, setTotalCredit] = useState(0);
+  const [totalSaving, setTotalSaving] = useState(0);
+  const [totalInvest, setTotalInvest] = useState(0);
+  const [totalDebitValue, setTotalDebit] = useState(0);
+  const {userId} = useAuth();
   useEffect(() => {
     const debouncedHandleResize = _.debounce(function handleResize() {
       setDimensions({
@@ -83,7 +87,87 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
   // const COLORS = ['#0088FE', '#EFEFEF'];
   const colors = ["#fe0000", "#fec400", "#7ed65d", "#009300"];
 
+  useEffect(() => {
+    const fetchCreditData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/creditData/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+        // Calculate the total credit value
+        // const totalCreditValue = data.reduce((sum, entry) => sum + entry.amount, 0);
+        let totalCreditValue = 0;
+        for (const entry of data) {
+          totalCreditValue += entry.amount;
+        }
+        setTotalCredit(totalCreditValue);
+      } catch (error) {
+        console.error('Error fetching credit data:', error);
+      }
+    };
+    const fetchDebitData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/debitData/${userId}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
 
+          },
+        });
+        const data = await response.json();
+        console.log(data);
+        // Calculate the total debit value
+        // const totalDebitValue = data.reduce((sum, entry) => sum + entry.amount, 0);
+        let totalDebitValue = 0;
+    for (const entry of data) {
+      totalDebitValue += entry.amount;
+    }
+        setTotalDebit(totalDebitValue);
+      } catch (error) {
+        console.error('Error fetching debit data:', error);
+      }
+    };
+    const fetchSavingsData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/savings/${userId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch savings data');
+        }
+        const data = await response.json();
+        const amounts = data.map(saving => saving.amount); // Extract the amounts from the savings data
+        const totalAmount = amounts.reduce((sum, amount) => sum + amount, 0);
+        setTotalSaving(totalAmount);
+        console.log('Savings data:', data);
+        // Process the savings data as needed
+      } catch (error) {
+        console.error('Error fetching savings data:', error);
+      }
+    };
+    const fetchinvestmentData = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/investments/${userId}`);
+        if (!response.ok) {
+          throw new Error('Failed to fetch savings data');
+        }
+        const data = await response.json();
+        const amounts = data.map(saving => saving.amount); // Extract the amounts from the savings data
+        const totalAmount = amounts.reduce((sum, amount) => sum + amount, 0);
+        setTotalInvest(totalAmount);
+        console.log('Savings data:', data);
+        // Process the savings data as needed
+      } catch (error) {
+        console.error('Error fetching savings data:', error);
+      }
+    };
+    fetchinvestmentData();
+    fetchSavingsData();
+    fetchCreditData();
+    fetchDebitData();
+  }, []);
   return (
     <>
     <Navbar/>
@@ -93,7 +177,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
         <div class=" row 1 row mb-3">
           <div class="smallheader col mx-2 p-3 rounded-4" style={{backgroundColor: 'rgb(32, 32, 32)'}}><h6>Networth</h6>
             &nbsp;
-            <h2 class="networth">₹XXX,XXX.XX</h2>
+            <h2 class="networth">₹{totalDebitValue.toFixed(2)}</h2>
             {/* <h2 class="networth">₹{netWorth.toFixed(2)}</h2> */}
             <span>90 days <span style={{color: 'rgb(43, 232, 42)'}}>+6,889</span></span>
           </div>
@@ -127,7 +211,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
           </div>
           <div class="smallheader col mx-2 p-3 rounded-4"style={{backgroundColor: 'rgb(32, 32, 32)'}}><h6>Credit</h6>
           &nbsp;
-          <h2 class="networth">-₹XXX.XXX</h2>
+          <h2 class="networth">-₹{totalCredit.toFixed(2)}</h2>
           {/* <h2 class="networth">₹{netWorth.toFixed(2)}</h2> */}
             <span>₹xxxxx remaining</span>
           </div>  
@@ -138,7 +222,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
           <Link to="/savings" style={{textDecoration: "none", color:"black"}}>
             <h6>Cash</h6>
             </Link>
-            <h1>+XX%</h1>
+            <h1>{totalSaving}</h1>
             grow since last day<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"><path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z"/></svg>
           <ResponsiveContainer width="100%" height={100}>
           <BarChart data={data}>
@@ -156,7 +240,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
           <Link to="/investments" style={{textDecoration: "none", color:"black"}}>
             <h6>Investment</h6>
           </Link>
-          <h1>+XX%</h1>
+          <h1>{totalInvest}</h1>
           &nbsp;
           <ResponsiveContainer width="100%" height={100}>
           <BarChart data={data}>
@@ -168,24 +252,24 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
           <div class="col-5 p-1">
             <div class="se p-3 mt-2 text-black"><h6>Business</h6>
               <h3>&nbsp;</h3>
-              <h2>+XX%</h2>
+              <h2>Coming soon</h2>
             </div>
           </div>
           <div class="col-2 p-1"><div class="se p-3 mt-2 text-black"><h6>Credit</h6>
-            <h3>xxx,xxx</h3>
-              <h2>+XX%</h2>
+            <h3>Coming soon</h3>
+              {/* <h2>+XX%</h2> */}
             </div></div>
           <div class="col-2 p-1"><div class="se p-3 mt-2 text-black"><h6>Charity</h6>
-            <h3>xxx,xxx</h3>
-              <h2>+XX%</h2>
+            <h3>Coming soon</h3>
+              {/* <h2>+XX%</h2> */}
             </div></div>
           <div class="col-3">
             <div class="p-1 mt-3 mb-2 rounded-4 text-black text-center inr" style={{backgroundColor: 'rgb(132, 138, 138)'}}>Income
-                <h4>₹xxxxx</h4>
+                <h4>Coming soon</h4>
             </div>
             <div class="p-1 rounded-4 mt-0 text-black text-center inr" style={{backgroundColor: 'rgb(132, 138, 138)'}}>
             Outcome
-            <h4>₹xxxxx</h4>
+            <h4>Coming soon</h4>
             </div>
           </div>
         </div>

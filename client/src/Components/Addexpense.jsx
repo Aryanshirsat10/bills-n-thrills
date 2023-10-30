@@ -26,7 +26,7 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/expenses`, {
+      const response = await fetch(`http://localhost:5000/api/expenses/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,11 +42,11 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
 
       const data = await response.json();
 
-      console.log('Saving added successfully:', data);
+      console.log('Expense added successfully:', data);
 
       setFormData({ category: '', amount: '', paymentType: '' }); // Clear the form
     } catch (error) {
-      console.error('Error adding saving:', error);
+      console.error('Error adding expense:', error);
     }
   };
 
@@ -90,8 +90,8 @@ const Addexpense = ({ showModal, handleCloseModal }) => {
                 >
                   <option value="">Select Payment Type</option>
                   <option value="Cash">Cash</option>
-                  <option value="Credit Card">Credit Card</option>
-                  <option value="Debit Card">Debit Card</option>
+                  <option value="Credit Card">Credit</option>
+                  <option value="Debit Card">Debit</option>
                   {/* Add more payment types as needed */}
                 </select>
               </div>

@@ -1,6 +1,6 @@
 import {React, useState,useEffect} from 'react';
 import '../CSS/investments.css'
-import { BarChart, Bar, Tooltip ,ResponsiveContainer ,YAxis,XAxis, Cell} from 'recharts';
+import { Tooltip ,ResponsiveContainer,Cell, PieChart, Pie, Legend, Label,ComposedChart,XAxis,YAxis,Area,Bar,BarChart, Line} from 'recharts';
 import { Link } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import Addinvestment from '../Components/Addinvestment';
@@ -112,13 +112,15 @@ const Investments = () => {
                 <ResponsiveContainer width="100%" height={200}>
                   {/* Render your graph based on selectedInvestment.graphData */}
                   {/* Example: selectedInvestment.graphData*/}
-                  <BarChart data={selectedInvestment.graphData}> 
-                    <Bar dataKey="value" fill="#00000" barSize={60} barRadius={25}>
-                      {data.map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.color} />
-                      ))}
-                    </Bar>
-                  </BarChart>
+                  <ComposedChart width="100%" height={250} data={existingData} style={{marginTop: "40px"}}>
+                    <XAxis dataKey="name" />
+                    <YAxis dataKey="value"/>
+                    <Tooltip />
+                    <Legend />
+                    <Area type="monotone" dataKey="amount" fill="#8884d8" stroke="#8884d8" />
+                    <Bar dataKey="amount" barSize={20} fill="#413ea0" />
+                    <Line type="monotone" dataKey="amount" stroke="#ff7300" />
+                  </ComposedChart>
                 </ResponsiveContainer>
               ) : (
                 // Default content when no investment is selected
@@ -161,8 +163,7 @@ const Investments = () => {
             </div>
           </div>
           <div class="col-lg-6 p-1"><div class="se p-3 mt-2 text-black"><h6>Latest news</h6>
-            <h3>xxx,xxx</h3>
-              <h2>+XX%</h2>
+            <h3>Comming soon...</h3>
             </div>
             </div>
         </div>

@@ -13,23 +13,12 @@ router.get('/:userId', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-router.get('/:userId', async (req, res) => {
-  console.log('Received a Get request to /api/expenses/:userid', req.body);
-  const userId = req.params.userId; // Get userId from the URL parameter
-
-  try {
-    // Find expenses specific to the provided userId
-    const expenses = await Expense.find({ userId: userId });
-    res.json(expenses);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-});
 
 // Create a new saving
 router.post('/:userId', async (req, res) => {
-  const { user, category, generatesCashFlow, cashFlowAmount, paymentType, amount } = req.body;
-  const newSaving = new Saving({ user, category, generatesCashFlow, cashFlowAmount, paymentType, amount });
+  const userId = req.params.userId;
+  const {category, generatesCashFlow, cashFlowAmount, paymentType, amount } = req.body;
+  const newSaving = new Saving({ userId, category, generatesCashFlow, cashFlowAmount, paymentType, amount });
   try {
     const savedSaving = await newSaving.save();
     res.json(savedSaving);
