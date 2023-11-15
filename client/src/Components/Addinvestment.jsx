@@ -77,7 +77,7 @@ const Addinvestment = ({ showModal, handleCloseModal }) => {
             required
           >
             <option value="">Select Category</option>
-            <option value="Food">Real Estate</option>
+            <option value="Real Estate">Real Estate</option>
             <option value="Stock market">Stock market</option>
             <option value="Mutual funds">Mutual funds</option>
             {/* Add more categories as needed */}

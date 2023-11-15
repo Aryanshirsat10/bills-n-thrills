@@ -71,7 +71,7 @@ const Addsavings = ({ showModal, handleCloseModal }) => {
                   style={{ backgroundColor: 'rgb(32,32,32)', border: 'none' }}
                 >
                   <option value="">Select Category</option>
-                  <option value="Food">Fd</option>
+                  <option value="Fd">Fd</option>
                   <option value="Transportation">Mutual Funds</option>
                   <option value="Entertainment">Rd</option>
                   <option value="Entertainment">Other</option>
