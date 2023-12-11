@@ -1,4 +1,8 @@
-# bills-n-thrills
+# Bills-n-Thrills
+Project snapshots
+![image](https://github.com/Aryanshirsat10/bills-n-thrills/assets/99379971/732cb28f-da08-4224-80aa-64d1f5a768b6)
+
+
 Steps to run the project on your local machine
 
 
