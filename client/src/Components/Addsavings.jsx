@@ -72,9 +72,9 @@ const Addsavings = ({ showModal, handleCloseModal }) => {
                 >
                   <option value="">Select Category</option>
                   <option value="Fd">Fd</option>
-                  <option value="Transportation">Mutual Funds</option>
-                  <option value="Entertainment">Rd</option>
-                  <option value="Entertainment">Other</option>
+                  <option value="Mutual Funds">Mutual Funds</option>
+                  <option value="RD">Rd</option>
+                  <option value="Other">Other</option>
                   {/* Add more categories as needed */}
                 </select>
               </div>

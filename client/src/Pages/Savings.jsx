@@ -96,7 +96,7 @@ const Savings = () => {
                   {/* Render your graph based on selectedInvestment.graphData */}
                   {/* Example: selectedInvestment.graphData*/}
                   <ComposedChart width="100%" height={250} data={existingData} style={{marginTop: "40px"}}>
-                    <XAxis dataKey="name" />
+                    <XAxis dataKey="category" />
                     <YAxis dataKey="amount"/>
                     <Tooltip />
                     <Legend />
