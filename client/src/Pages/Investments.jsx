@@ -107,7 +107,7 @@ const Investments = () => {
                   {/* Example: selectedInvestment.graphData*/}
                   <ComposedChart width="100%" height={250} data={existingData} style={{marginTop: "50px"}}>
                     <XAxis dataKey="name" />
-                    <YAxis dataKey="value"/>
+                    <YAxis dataKey="amount"/>
                     <Tooltip />
                     <Legend />
                     <Area type="monotone" dataKey="amount" fill="#8884d8" stroke="#8884d8" />
