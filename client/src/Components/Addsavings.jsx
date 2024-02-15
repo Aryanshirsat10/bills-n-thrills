@@ -26,7 +26,7 @@ const Addsavings = ({ showModal, handleCloseModal }) => {
     }
 
     try {
-      const response = await fetch(`http://localhost:5000/api/savings/${userId}`, {
+      const response = await fetch(`https://bills-n-thrills-backend.onrender.com/api/savings/${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -26,7 +26,7 @@ const Addinvestment = ({ showModal, handleCloseModal }) => {
           // const userId = await getLoggedInUserId();
           // Send the expense data along with the user ID to your API endpoint
         try {
-          const response = await fetch(`http://localhost:5000/api/investments/${userId}`, {
+          const response = await fetch(`https://bills-n-thrills-backend.onrender.com/api/investments/${userId}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
