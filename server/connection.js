@@ -9,7 +9,7 @@ const app = express();
 const PORT = 5000;
 const uri = process.env.MONGODB_URI;
 const corsOptions = {
-  origin: 'https://bills-n-thrills.onrender.com/',
+  origin: 'https://bills-n-thrills.netlify.app',
   // Other CORS options if needed
 };
 
