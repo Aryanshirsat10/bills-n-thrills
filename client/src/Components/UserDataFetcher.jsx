@@ -20,7 +20,7 @@ const UserDataFetcher = () => {
           };
           // console.log(data);
           // Send the data to your backend API endpoint
-          const response = await fetch('http://localhost:5000/api/users', {
+          const response = await fetch('https://bills-n-thrills-backend.onrender.com/api/users', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
