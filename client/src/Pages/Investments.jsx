@@ -74,7 +74,7 @@ const Investments = () => {
     // Fetch existing data from the database when the component mounts
     const fetchExistingData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/investments/${userId}`, {
+        const response = await fetch(`https://bills-n-thrills-backend.onrender.com/api/investments/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
