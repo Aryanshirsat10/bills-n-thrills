@@ -102,7 +102,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
   useEffect(() => {
     const fetchCreditData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/creditData/${userId}`, {
+        const response = await fetch(`https://bills-n-thrills-backend.onrender.com/api/creditData/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
     };
     const fetchDebitData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/debitData/${userId}`, {
+        const response = await fetch(`https://bills-n-thrills-backend.onrender.com/api/debitData/${userId}`, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -145,7 +145,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
     };
     const fetchSavingsData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/savings/${userId}`);
+        const response = await fetch(`https://bills-n-thrills-backend.onrender.com/api/savings/${userId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch savings data');
         }
@@ -164,7 +164,7 @@ const pointerPath = `M -1,0 L 0,-30 L 1,0 Z`; // Path for the arrow pointer
 
     const fetchinvestmentData = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/investments/${userId}`);
+        const response = await fetch(`https://bills-n-thrills-backend.onrender.com/api/investments/${userId}`);
         if (!response.ok) {
           throw new Error('Failed to fetch savings data');
         }
